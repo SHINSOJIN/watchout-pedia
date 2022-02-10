@@ -1,7 +1,12 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import styled from '@emotion/styled'
 import {AiOutlineSearch} from 'react-icons/ai';
+// import { useRecoilState } from 'recoil'; //Todo: recoil이 무엇인가? 놓친 강의가 있는가?
+
+import { loginModalOpenState, signupModalOpenState } from '../features/app/atom';
+
 import useMovieSearch from "../features/movie/useMovieSearch";
+import useClickOutside from '../hooks/useClickOutside'; //Todo: 놓친 부분이 있는가?
 
 const Base = styled.header`
   width: 100%;
@@ -123,16 +128,16 @@ const SearchResultList = styled.ul`
 `;
 
 const SearchFormWrapper = styled.div`
-  position: absolute;
-  top: 60px;
-  left: 0;
-  z-index: 999;
-  background: #fff;
-  width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
-  max-height: 480px;
-  overflow-y: scroll;
+  //position: absolute;
+  //top: 60px;
+  //left: 0;
+  //z-index: 999;
+  //background: #fff;
+  //width: 100%;
+  //border-radius: 8px;
+  //box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+  //max-height: 480px;
+  //overflow-y: scroll;
 `;
 
 const SearchForm = styled.form``;
@@ -185,10 +190,13 @@ const SignUp = styled.button`
   margin: 15px 0;
 `;
 
+interface Props {}
 
-const Header: React.FC = () => {
-    const [searchKeyword, setSearchKeyword] = useState<string>('')
+const Header: React.FC<Props> = () => {
+    const searchRef = useRef<HTMLDivElement>(null);
     const pathname = window.location.pathname;
+
+    const [searchKeyword, setSearchKeyword] = useState<string>('')
     const isTv = pathname.indexOf('tv') > -1
     const handleKeyword = (e: React.ChangeEvent<HTMLInputElement>) : void => {
         setSearchKeyword(e.target.value);
@@ -210,15 +218,15 @@ const Header: React.FC = () => {
                         </Menu>
                         <Menu>
                             <Link href="/">
-                                <MenuButton>영화</MenuButton>
+                                <MenuButton active={pathname === '/'}>영화</MenuButton>
                             </Link>
                             <Link href="/tv">
-                                <MenuButton>TV 프로그램</MenuButton>
+                                <MenuButton active={pathname === '/tv'}>TV 프로그램</MenuButton>
                             </Link>
                         </Menu>
                         <SearchMenu>
                             <SearchContainer>
-                                <SearchFormWrapper>
+                                <SearchFormWrapper ref={searchRef}>
                                     <SearchForm>
                                         <SearchLabel>
                                             <AiOutlineSearch/>
@@ -230,11 +238,13 @@ const Header: React.FC = () => {
                             </SearchContainer>
                             <SearchResultWrapper>
                                 <SearchResultList>
-                                    {searchResult?.data.results.map((item)=> {
+                                    {
+                                        searchResult?.results.map((item)=> {
                                         <Link key={item.id} href={`/movie/${item.id}`}>
                                             <SearchResultListItem>{item.title}</SearchResultListItem>
                                         </Link>
-                                    })}
+                                    })
+                                    }
                                 </SearchResultList>
                             </SearchResultWrapper>
                         </SearchMenu>

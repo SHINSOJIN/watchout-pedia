@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from "@emotion/styled";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import LatestMovieSection from "../features/movie/latest";
@@ -6,7 +7,7 @@ import NowPlayingSection from "../features/movie/nowPlaying";
 import PopularSection from "../features/movie/popular";
 import TopRaterSection from "../features/movie/topRate";
 import UpcomingSection from "../features/movie/upComing";
-import styled from "@emotion/styled";
+
 
 const Main = styled.div`
   max-width: 1200px;
@@ -19,7 +20,7 @@ const Container = styled.div`
 
 const MainPage: React.FC = () => {
     return (
-        <div>
+        <>
             <Header/>
             <Main>
                 <Container>
@@ -30,9 +31,8 @@ const MainPage: React.FC = () => {
                     <UpcomingSection/>
                 </Container>
             </Main>
-
             <Footer/>
-        </div>
+        </>
     )
 };
 

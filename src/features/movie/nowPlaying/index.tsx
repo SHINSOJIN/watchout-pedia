@@ -20,19 +20,17 @@ const NowPlayingSection : React.FC = () => {
     const {data, isLoading} = useNowPlayingMovie();
     const getYear = (date: string) => date.split('-')[0];
 
-    console.log(process.env.REACT_APP_IMAGE_PREFIX)
-
     // @ts-ignore
     return(
         <Base>
             <Title>현재 상영작</Title>
             {
-                isLoading || !data ? (
+                isLoading ? (
                     <div>Loading...</div>
                 ) : (
                     <Slider>
                         {
-                            data.data.results.map(movie => {
+                            data?.data?.results.map(movie => (
                                 <Card
                                     key={movie.id}
                                     linkUrl={`/movie/${movie.id}`}
@@ -41,11 +39,9 @@ const NowPlayingSection : React.FC = () => {
                                     voteAverage={movie.vote_average}
                                     year={getYear(movie.release_date)}
                                 />
-                        })
+                            ))
                         }
                     </Slider>
-
-
                 )
             }
         </Base>

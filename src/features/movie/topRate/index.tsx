@@ -6,7 +6,6 @@ import useTopRateMovie from "./useTopRateMovie";
 
 const Base = styled.div`
   margin-bottom: 42px;
-  
 `;
 const Title = styled.h4`
 font-size: 22px;
@@ -22,12 +21,12 @@ const TopRaterSection : React.FC = () => {
         <Base>
             <Title>최고 평점</Title>
             {
-                isLoading || !data ? (
+                isLoading ? (
                     <div>Loading...</div>
                 ) : (
                     <Slider>
                         {
-                            data.data.results.map(movie => {
+                            data?.data?.results.map(movie => {
                                 <Card
                                     key={movie.id}
                                     linkUrl={`/movie/${movie.id}`}
@@ -39,8 +38,6 @@ const TopRaterSection : React.FC = () => {
                             })
                         }
                     </Slider>
-
-
                 )
             }
         </Base>

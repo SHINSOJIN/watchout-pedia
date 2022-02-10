@@ -1,14 +1,16 @@
 import React, {useMemo} from 'react';
 import styled from "@emotion/styled";
-import Header from "../components/Header";
-import Footer from '../components/Footer';
 import {useParams} from 'react-router-dom';
-import useMovieDetail from "../features/movie/useMovieDetail";
+import {AiOutlinePlus, AiFillEye} from 'react-icons/ai'
+import {FaPen} from 'react-icons/fa'
+import {FiMoreHorizontal} from 'react-icons/fi'
 import {Rating} from '@mui/material'
 
-import { AiOutlinePlus, AiFillEye} from 'react-icons/ai'
-import { FaPen } from 'react-icons/fa'
-import { FiMoreHorizontal } from 'react-icons/fi'
+import useMovieDetail from "../features/movie/useMovieDetail";
+import Header from "../components/Header";
+import Footer from '../components/Footer';
+import DefaultInfo from "../features/movie/detail/DefaultInfo";
+import Similar from "../features/movie/detail/Similar";
 
 
 const Base = styled.div`
@@ -39,7 +41,7 @@ const RightBlur = styled.div`
   flex: 1 1 0%;
   background: rgb(184, 184, 184);
 `;
-const LeftGradiant = styled.div`
+const LeftGradient = styled.div`
   width: 150px;
   display: block;
   position: absolute;
@@ -48,14 +50,17 @@ const LeftGradiant = styled.div`
   left: 0;
   background-image: linear-gradient(-90deg, rgba(178, 196, 229, 0) 0%, rgb(178, 196, 229) 100%);
 `;
-const RightGradiant = styled.div`
+
+const RightGradient = styled.div`
   width: 150px;
   display: block;
   position: absolute;
   top: 0;
+  right: 0;
   bottom: 0;
-  left: 0;
-  background-image: linear-gradient(90deg, rgba(184, 184, 184, 0) 0%, rgb(184, 184, 184) 100%);`;
+  background-image: linear-gradient(90deg, rgba(184, 184, 184, 0) 0%, rgb(184, 184, 184) 100%);
+`;
+
 const BackdropImage = styled.div<{ imageUrl: string }>`
   background: url(${({imageUrl}) => imageUrl}) center center / cover no-repeat;
   width: 1024px;
@@ -65,6 +70,7 @@ const BackdropImage = styled.div<{ imageUrl: string }>`
   height: 100%;
   filter: none;
 `;
+
 const PosterWrapper = styled.div`
   position: absolute;
   width: 166px;
@@ -184,20 +190,23 @@ const ContentSectionContainer = styled.div`
 type Params = {
     id: string;
 }
-const MovieDetail: React.FC = () => {
+
+interface Props {
+}
+
+const MovieDetail: React.FC<Props> = () => {
     const {id} = useParams<Params>();
 
     // @ts-ignore
     const {isLoading, data} = useMovieDetail(id);
-    const year = useMemo(()=> {
-        return data?.data.release_date?.split('-')[0]
-    }, [data])
-    const genres = useMemo(()=> {
-        return data?.data.genres?.map(genre => genre.name).join('/') || ''
-    }, [data]);
+    // @ts-ignore
+    const year = useMemo(() => data?.release_date.split('-')[0] || '', [data]);
+    const genres = useMemo(() => data?.genres.map(genre => genre.name).join('/') || '', [data]);
 
+    // @ts-ignore
+    // @ts-ignore
     return (
-        <div>
+        <base>
             <Header/>
             <>
                 {
@@ -206,47 +215,53 @@ const MovieDetail: React.FC = () => {
                     ) : (
                         <>
                             <TopInfo>
+
                                 <PosterContainer>
                                     <Backdrop>
                                         <LeftBlur/>
-                                        <BackdropImage imageUrl = {`${process.env.REACT_APP_IMAGE_PREFIX }/${data.data.backdrop_path}`}/>
-                                        <LeftGradiant/>
-                                        <RightGradiant/>
+                                        <BackdropImage
+                                            imageUrl={`${process.env.REACT_APP_IMAGE_PREFIX}/${data.backdrop_path}`}>
+                                            <LeftGradient/>
+                                            <RightGradient/>
+                                        </BackdropImage>
                                         <RightBlur/>
                                     </Backdrop>
                                 </PosterContainer>
+
                                 <Main>
                                     <Container>
+                                        <PosterWrapper>
+                                            <Poster src={`${process.env.REACT_APP_IMAGE_PREFIX}/${data.poster_path}`}/>
+                                        </PosterWrapper>
                                         <ContentWrapper>
-                                            <PosterWrapper>
-                                                <Poster src={`${process.env.REACT_APP_IMAGE_PREFIX}/${data.data.poster_path}`}/>
-                                            </PosterWrapper>
-                                            <Title>{data.data.title}</Title>
+                                            <Title>{data.title}</Title>
                                             <Keyword>{year} {genres}</Keyword>
-                                            <AverageRate>평균 * {data.data.vote_average} ({data.data.vote_count}명)</AverageRate>
+                                            <AverageRate>평균 * {data.vote_average} ({data.vote_count}명)</AverageRate>
                                             <Actions>
                                                 <StarRate>
                                                     <StarRateText>평가하기</StarRateText>
                                                     <RatingWrapper>
-                                                        <Rating />
+                                                        <Rating size='large'/>
                                                     </RatingWrapper>
                                                 </StarRate>
                                                 <Divider/>
+
                                                 <ActionButtonContainer>
-                                                    <ActionButton><AiOutlinePlus />보고싶어요</ActionButton>
-                                                    <ActionButton><FaPen />코멘트</ActionButton>
-                                                    <ActionButton><AiFillEye />보는중</ActionButton>
-                                                    <ActionButton><FiMoreHorizontal />더보기</ActionButton>
+                                                    <ActionButton><AiOutlinePlus/>보고싶어요</ActionButton>
+                                                    <ActionButton><FaPen/>코멘트</ActionButton>
+                                                    <ActionButton><AiFillEye/>보는중</ActionButton>
+                                                    <ActionButton><FiMoreHorizontal/>더보기</ActionButton>
                                                 </ActionButtonContainer>
                                             </Actions>
                                         </ContentWrapper>
                                     </Container>
                                 </Main>
                             </TopInfo>
+
                             <BottomInfo>
                                 <ContentSectionContainer>
-                                    {/*<DefaultInfo/>*/}
-                                    {/*<Similar/>*/}
+                                    <DefaultInfo title={data.title} year={year} genres={genres} runtime={data.runtime} overview={data.overview} />
+                                    {/*<Similar id={id} />*/}
                                 </ContentSectionContainer>
                             </BottomInfo>
                         </>
@@ -254,7 +269,7 @@ const MovieDetail: React.FC = () => {
                 }
             </>
             <Footer/>
-        </div>
+        </base>
     )
 };
 

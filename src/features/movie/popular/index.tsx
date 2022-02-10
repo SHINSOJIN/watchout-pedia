@@ -6,7 +6,6 @@ import Slider from "../../../components/Slider";
 
 const Base = styled.div`
   margin-bottom: 42px;
-  
 `;
 const Title = styled.h4`
 font-size: 22px;
@@ -22,12 +21,12 @@ const PopularSection: React.FC = () => {
         <Base>
             <Title>인기 상영작</Title>
             {
-                isLoading || !data ? (
+                isLoading? (
                     <div>Loading...</div>
                 ) : (
                     <Slider>
                         {
-                            data.data.results.map(movie => (
+                            data?.data?.results.map(movie => (
                                 <Card
                                     key={movie.id}
                                     linkUrl={`/movie/${movie.id}`}
@@ -35,13 +34,11 @@ const PopularSection: React.FC = () => {
                                     posterPath={`${process.env.REACT_APP_IMAGE_PREFIX}/${movie.poster_path}`}
                                     voteAverage={movie.vote_average}
                                     year={getYear(movie.release_date)}
-
                                 />
                                 )
                             )
                         }
                     </Slider>
-
                 )
             }
         </Base>

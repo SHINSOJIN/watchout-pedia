@@ -6,7 +6,6 @@ import Card from '../../../components/Card'
 
 const Base = styled.div`
   margin-bottom: 42px;
-  
 `;
 const Title = styled.h4`
 font-size: 22px;
@@ -20,8 +19,6 @@ const LatestMovieSection : React.FC = () => {
     const {data, isLoading} = useLatestMovie();
     const getYear = (date: string) => date.split('-')[0];
 
-
-
     // @ts-ignore
     return(
         <Base>
@@ -31,6 +28,7 @@ const LatestMovieSection : React.FC = () => {
                 <div>Loading...</div>
                 ) : (
                     <Card
+                        key={data.data.id}
                         linkUrl={`/movie/${data.data.id}`}
                         title={data.data.title}
                         posterPath={`https://image.tmdb.org/t/p//${data.data.poster_path}`}

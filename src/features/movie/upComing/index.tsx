@@ -1,30 +1,38 @@
 import React from 'react';
-import styled from "@emotion/styled";
-import Slider from "../../../components/Slider";
-import Card from "../../../components/Card";
-import useUpcomingMovie from "./useUpComingMovie";
+import styled from '@emotion/styled';
 
-const Base = styled.div``;
-const Title = styled.h4``;
+import Slider from '../../../components/Slider';
+// @ts-ignore
+import useUpcomingMovie from './useUpComingMovie';
+import Card from '../../../components/Card';
 
+const Base = styled.div`
+  margin-bottom: 42px;
+  position: relative;
+`;
 
-const UpcomingSection : React.FC = () => {
-    const {data, isLoading} = useUpcomingMovie();
-    const getYear = (date: string) => date.split('-')[0];
+const Title = styled.h4`
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 30px;
+  padding: 12px 0 14px;
+`;
 
+const UpcomingMovieSection: React.FC = () => {
+    const { data, isLoading } = useUpcomingMovie();
 
+    const getYear = (release_date: string) => release_date.split('-')[0] || '';
 
-    // @ts-ignore
-    return(
+    return (
         <Base>
             <Title>개봉 예정작</Title>
             {
-                isLoading || !data ? (
+                isLoading ? (
                     <div>Loading...</div>
                 ) : (
                     <Slider>
                         {
-                            data.data.results.map(movie => {
+                            data?.data?.results.map(movie => (
                                 <Card
                                     key={movie.id}
                                     linkUrl={`/movie/${movie.id}`}
@@ -33,15 +41,13 @@ const UpcomingSection : React.FC = () => {
                                     voteAverage={movie.vote_average}
                                     year={getYear(movie.release_date)}
                                 />
-                            })
+                            ))
                         }
                     </Slider>
-
-
                 )
             }
         </Base>
     )
 }
 
-export default UpcomingSection;
+export default UpcomingMovieSection;

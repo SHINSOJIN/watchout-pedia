@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import {Link} from 'react-router-dom';
-import {AiFillStar} from 'react-icons/ai';
+import { Link } from 'react-router-dom';
+import { AiFillStar } from 'react-icons/ai';
 
 interface Props {
     linkUrl: string;

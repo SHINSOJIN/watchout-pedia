@@ -39,15 +39,10 @@ interface Props {
     title: string;
     year: string;
     genres: string;
-    runtime: number;
     overview: string;
 }
 
-const DefaultInfo: React.FC<Props> = ({title, year, genres, overview, runtime}) => {
-
-    const hour = Math.ceil(runtime / 60);
-    const minute = runtime % 60;
-
+const DefaultInfo: React.FC<Props> = ({title, year, genres, overview}) => {
     return (
         <Base>
             <HeaderWrapper>
@@ -59,13 +54,8 @@ const DefaultInfo: React.FC<Props> = ({title, year, genres, overview, runtime}) 
                 </Header>
                 <Summary>
                     {title}
-                    <br />
-                    {year} ・ {genres}
-                    <br />
-                    {hour}시간 {minute}분
-                    <br />
-                    <br />
-                    {overview}
+                    <br/>
+                    {year} {genres}
                 </Summary>
             </HeaderWrapper>
         </Base>
