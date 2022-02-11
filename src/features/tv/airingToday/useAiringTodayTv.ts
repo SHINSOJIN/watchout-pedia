@@ -1,11 +1,11 @@
 import { useQuery } from 'react-query';
-import { AxiosError, AxiosResponse } from 'axios';
-import {ListResponse, TVDetail} from '../../../types';
-import {airingTodayApi} from "../../../apis/tvApi";
+import { AxiosResponse } from 'axios';
 
-
+import { airingTodayApi } from '../../../apis/tvApi';
+import {TVDetail, ListResponse} from "../../../types";
 
 const useAiringTodayTv = () => {
-    return useQuery<AxiosResponse<ListResponse<TVDetail>>, AxiosError>('airingTodayTv', airingTodayApi);
+  return useQuery<AxiosResponse<ListResponse<TVDetail>>>('airingTodayTv', airingTodayApi);
 }
+
 export default useAiringTodayTv;

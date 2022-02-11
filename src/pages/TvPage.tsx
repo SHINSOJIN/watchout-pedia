@@ -1,39 +1,41 @@
 import React from 'react';
-import LatestTvSection from "../features/tv/latest";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import AiringTodayTvSection from "../features/tv/airingToday";
-import OnTheAirTvSection from "../features/tv/onTheAir";
-import PopularTvSection from "../features/tv/popular";
-import TopRaterTvSection from "../features/tv/topRate";
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
+import Footer from '../components/Footer';
+import Header from '../components/Header';
 
-const Main = styled.div`
+import AiringTodayTvSection from '../features/tv/airingToday';
+import OnTheAirTvSection from '../features/tv/onTheAir';
+import LatestTvSection from '../features/tv/latest';
+import PopularTvSection from '../features/tv/popular';
+import TopRateTvSection from '../features/tv/topRate';
+
+const Main = styled.main`
   max-width: 1200px;
   margin: 0 auto;
 `;
+
 const Container = styled.div`
   margin-top: 62px;
-  padding: 24px 0
+  padding: 48px 0;
 `;
 
 const TvPage: React.FC = () => {
-    return(
-        <div>
-            <Header/>
-            <Main>
-                <Container>
-                    <LatestTvSection />
-                    <AiringTodayTvSection/>
-                    <OnTheAirTvSection />
-                    <PopularTvSection />
-                    <TopRaterTvSection />
-                </Container>
-            </Main>
-            <Footer/>
-        </div>
-    )
-};
+  return (
+    <>
+      <Header />
+      <Main>
+        <Container>
+          <LatestTvSection />
+          <AiringTodayTvSection />
+          <OnTheAirTvSection />
+          <PopularTvSection />
+          <TopRateTvSection />
+        </Container>
+      </Main>
+      <Footer />
+    </>
+  )
+}
 
 export default TvPage;

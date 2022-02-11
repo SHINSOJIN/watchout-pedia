@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import useSimilarMovie from "../useSimilarMovie";
+import useSimilarMovie from '../useMovieSimilar';
 
 const Base = styled.section`
   padding: 11px 15px;
@@ -76,65 +76,61 @@ const Link = styled.a`
   text-decoration: none;
 `;
 
-
-
 interface Props {
-    id: string;
+  id: string;
 }
 
 interface MovieProps {
-    id: number;
-    posterPath: string;
-    title: string;
-    voteAverage: number;
+  id: number;
+  posterPath: string;
+  title: string;
+  voteAverage: number;
 }
 
 const Card: React.FC<MovieProps> = ({ id, posterPath, title, voteAverage }) => {
-    return (
-        <Link href={`/movie/${id}`} target="_blank">
-            <CardContainer>
-                <PosterWrapper>
-                    <Poster src={`${process.env.REACT_APP_IMAGE_PREFIX}/${posterPath}`} />
-                </PosterWrapper>
-                <Info>
-                    <Title>{title}</Title>
-                    <VoteAverage>평균 ★ {voteAverage}</VoteAverage>
-                </Info>
-            </CardContainer>
-        </Link>
-    )
+  return (
+    <Link href={`/movie/${id}`} target="_blank">
+      <CardContainer>
+        <PosterWrapper>
+          <Poster src={`${process.env.REACT_APP_IMAGE_PREFIX}/${posterPath}`} />
+        </PosterWrapper>
+        <Info>
+          <Title>{title}</Title>
+          <VoteAverage>평균 ★ {voteAverage}</VoteAverage>
+        </Info>
+      </CardContainer>
+    </Link>
+  )
 }
 
+const Similar: React.FC<Props> = ({ id }) => {
+  const { isLoading, data } = useSimilarMovie(id);
 
-// @ts-ignore
-const Similar: React.FC<Props> = ({id}) => {
-    const {isLoading, data} = useSimilarMovie(id);
-
-    // @ts-ignore
-    return (
-        <Base>
-            <ContentHeaderWrapper>
-                <ContentHeader>
-                    <ContentTitle>비슷한 작품</ContentTitle>
-                </ContentHeader>
-            </ContentHeaderWrapper>
-            <ContentsWrapper>
-                {isLoading || !data ? (
-                    <div>Loading...</div>
-                ) : (
-                    data.results.map((result) => (
-                        <Card
-                            id={result.id}
-                            posterPath={result.poster_path}
-                            title={result.title}
-                            voteAverage={result.vote_average}
-                        />
-                    ))
-                )}
-
-            </ContentsWrapper>
-        </Base>
-    )
-};
+  return (
+    <Base>
+      <ContentHeaderWrapper>
+        <ContentHeader>
+          <ContentTitle>비슷한 작품</ContentTitle>
+        </ContentHeader>
+      </ContentHeaderWrapper>
+      <ContentsWrapper>
+        {
+          isLoading || !data ? (
+            <div>Loading...</div>
+          ) : (
+            data.results.map(result => (
+              <Card
+                id={result.id}
+                posterPath={result.poster_path}
+                title={result.title}
+                voteAverage={result.vote_average}
+              />
+            ))
+          )
+        }
+      </ContentsWrapper>
+    </Base>
+  )
+}
 
 export default Similar;

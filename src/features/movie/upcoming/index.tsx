@@ -2,11 +2,12 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 import Slider from '../../../components/Slider';
-import usePopularMovie from './usePopularMovie';
+import useUpcomingMovie from './useUpcomingMovie';
 import Card from '../../../components/Card';
 
 const Base = styled.div`
   margin-bottom: 42px;
+  position: relative;
 `;
 
 const Title = styled.h4`
@@ -16,21 +17,21 @@ const Title = styled.h4`
   padding: 12px 0 14px;
 `;
 
-const PopularMovieSection: React.FC = () => {
-  const { data: popularMovieResponse, isLoading } = usePopularMovie();
+const UpcomingMovieSection: React.FC = () => {
+  const { data: upcomingMovieResponse, isLoading } = useUpcomingMovie();
 
   const getYear = (release_date: string) => release_date.split('-')[0] || '';
 
   return (
     <Base>
-      <Title>인기 상영작</Title>
+      <Title>개봉 예정작</Title>
       {
         isLoading ? (
           <div>Loading...</div>
         ) : (
           <Slider>
             {
-              popularMovieResponse?.data?.results.map(movie => (
+              upcomingMovieResponse?.data?.results.map(movie => (
                 <Card
                   key={movie.id}
                   linkUrl={`/movie/${movie.id}`}
@@ -48,4 +49,4 @@ const PopularMovieSection: React.FC = () => {
   )
 }
 
-export default PopularMovieSection;
+export default UpcomingMovieSection;

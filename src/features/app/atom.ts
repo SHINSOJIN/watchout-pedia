@@ -1,4 +1,3 @@
-// @ts-ignore
 import { atom } from 'recoil';
 
 export const loginModalOpenState = atom<boolean>({

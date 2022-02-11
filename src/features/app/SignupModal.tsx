@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
-// @ts-ignore
 import Modal from '../../components/Modal';
 // @ts-ignore
 import FacebookLogin, {ReactFacebookFailureResponse, ReactFacebookLoginInfo} from 'react-facebook-login';
-// @ts-ignore
 import { useRecoilState } from 'recoil';
 import { loginModalOpenState, signupModalOpenState } from './atom';
 

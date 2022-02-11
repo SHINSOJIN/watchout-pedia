@@ -1,13 +1,11 @@
 import { useQuery } from 'react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import {ListResponse } from '../../../types';
-import TVDetail from "../../../pages/TvDetail";
-import {topRatedApi} from "../../../apis/tvApi";
 
-
+import { topRatedApi } from '../../../apis/tvApi';
+import { ListResponse, TVDetail } from '../../../types';
 
 const useTopRateTv = () => {
-    // @ts-ignore
-    return useQuery<AxiosResponse<ListResponse<TVDetail>>, AxiosError>('topRateTv', topRatedApi);
+  return useQuery<AxiosResponse<ListResponse<TVDetail>>, AxiosError>('topRateTv', topRatedApi);
 }
+
 export default useTopRateTv;
